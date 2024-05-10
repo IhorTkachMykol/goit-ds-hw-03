@@ -1,0 +1,29 @@
+import json
+from pymongo import MongoClient
+
+# Підключення до бази даних MongoDB
+client = MongoClient('mongodb+srv://ihormongo:240471@authors.jmixi1f.mongodb.net/')
+
+# Вибір бази даних
+db = client['ihormongo']
+
+# Завантаження даних з файлу authors.json
+with open('authors.json') as f:
+    authors_data = json.load(f)
+
+# Вставка даних про авторів у колекцію authors
+authors_collection = db['authors']
+authors_collection.insert_many(authors_data)
+
+# Завантаження даних з файлу quotes.json
+with open('quotes.json') as f:
+    quotes_data = json.load(f)
+
+# Вставка даних про цитати у колекцію quotes
+quotes_collection = db['quotes']
+quotes_collection.insert_many(quotes_data)
+
+# Закриття підключення до бази даних
+client.close()
+
+print("Дані успішно завантажено в базу даних MongoDB.")
